@@ -1,29 +1,65 @@
-import { DECCREMENT, INCREMENT, RESET } from "./actionTypes";
+import {
+  DECCREMENT,
+  GET_TODOS_FAILED,
+  GET_TODOS_REQUIEST,
+  GET_TODOS_SUCCESS,
+  INCREMENT,
+  RESET,
+} from "./actionTypes";
 
 const initialState = {
-  count: 0,
+  todos: [],
+  isLoading: false,
+  error: null,
 };
-const countReducer = (state = initialState, action) => {
+
+const todosReducer = (state = initialState, action) => {
   switch (action.type) {
-    case INCREMENT:
+    case GET_TODOS_REQUIEST:
       return {
         ...state,
-        count: state.count + 1,
+        isLoading: true,
       };
-    case DECCREMENT:
+      case GET_TODOS_SUCCESS:
       return {
         ...state,
-        count: state.count - 1,
+        isLoading: false,
+        todos:action.payload,
       };
-    case RESET:
-      return {
-        ...state,
-        count:0,
-      };
+      case GET_TODOS_FAILED:
+        return {
+          ...state,
+          isLoading: false,
+          todos:[],
+          error:action.payload
+        };
 
     default:
       return state;
   }
 };
 
-export default countReducer
+// const countReducer = (state = initialState, action) => {
+//   switch (action.type) {
+//     case INCREMENT:
+//       return {
+//         ...state,
+//         count: state.count + 1,
+//       };
+//     case DECCREMENT:
+//       return {
+//         ...state,
+//         count: state.count - 1,
+//       };
+//     case RESET:
+//       return {
+//         ...state,
+//         count:0,
+//       };
+
+//     default:
+//       return state;
+//   }
+// };
+
+export default todosReducer;
